@@ -26,7 +26,6 @@ provider-2/dataset-A
   ['Kind :: Model output', 'Availability :: Collaborators only']
 ```
 
-
 ## How it works
 
 - The file `providers.yaml` provides *registration*. It records, for each data provider, a location (a web URL) for data descriptions.
@@ -64,7 +63,12 @@ provider-2/dataset-A
   - Contain all information necessary to identify fruitful collaborations within EDITS.
   - Be re-usable and useful beyond the project.
 
-  For instance, a provider could re-use the same description URL with 2 or more projects, or to advertise generally (outside any formal project) their model outputs or data offers.
+  For instance, a provider could **re-use the same description** content/URL with 2 or more projects, or to advertise generally (outside any formal project) their model outputs or data offers.
 
-- The practice of creating and sharing these simple data descriptions through a simple process prepares both (a) the content and (b) the skills for later using more sophisticated processes.
+- The pattern is **decentralized** and **asynchronous**.
+  - Data providers can update their description(s) at any time by adding, modifying, or removing, YAML files to their collection.
+  - The next run of `demo.py` (by whomever) will retrieve the latest descriptions.
+  - Because `demo.py` and `providers.yaml` are public via this repository, anyone can access the full set of descriptions on demand, without any central coordination.
+
+- The practice of creating and sharing these simple data descriptions through a simple process both (a) prepares the content and (b) develops fundamental skills for later using more sophisticated processes.
   The code can also be extended to support transforming the simple YAML descriptions into other metadata formats.

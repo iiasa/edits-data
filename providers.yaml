@@ -1,13 +1,36 @@
 # This file lists data providers and the locations of their data descriptions
 # These could also be assembled from multiple files
 
-- name: Provider 1
-  # URL for a ZIP file or directory containing multiple files—could be flexible
-  # here
-  url: https://github.com/khaeru/edits-data-demo-1/archive/refs/heads/main.zip
-  # URL with README information, or direct text
-  readme: https://github.com/khaeru/edits-data-demo-1
+- id: edits
+  contact:
+    name: Paul Natsuo Kishimoto
+    email: mail@paul.kishimoto.name
+    github: khaeru
+  files:
+  - https://raw.githubusercontent.com/iiasa/edits-data-demo-2/main/dataset-A.yaml
+  - https://raw.githubusercontent.com/khaeru/edits-data-demo-1/main/dataset-X.yaml
 
-- name: Provider 2
-  url: https://github.com/iiasa/edits-data-demo-2/archive/refs/heads/main.zip
-  readme: https://github.com/iiasa/edits-data-demo-2
+- id: iiasa-transport
+  contact:
+    name: Paul Natsuo Kishimoto
+    email: mail@paul.kishimoto.name
+    github: khaeru
+  files:
+  - https://raw.githubusercontent.com/iiasa/message-ix-models/main/message_ix_models/data/edits/messageix-transport-core.yaml
+  - https://raw.githubusercontent.com/iiasa/message-ix-models/main/message_ix_models/data/edits/messageix-transport-input.yaml
+
+- id: jmip
+  contact:
+    name: JU Yiyi
+    email: juyiyi@aoni.waseda.jp
+    github: yiyi1991
+  files:
+  - https://raw.githubusercontent.com/UTokyo-mip/JMIP_dataset/JMIP2021_EDITS/description_EDITS.yaml
+
+- id: miso2
+  contact:
+    name: Jan Streeck
+    email: jan.streeck@boku.ac.at
+    github: janstre
+  files:
+  - https://raw.githubusercontent.com/janstre/EDITS_metadataTest/main/MISO2_metadata_example.yaml

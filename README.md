@@ -7,9 +7,28 @@ This repository provides a rudimentary example of decentralized metadata (descri
 The code is written in Python.
 
 1. Install the dependencies: `pip install -r requirements.txt`
-2. Run: `python demo.py`
+2. In this directory, run the command-line tool with `python -m edits --help`.
+   This shows the help information for the tool, e.g.:
 
-The output looks like:
+   ```
+   $ python -m edits --help
+   Usage: __main__.py [OPTIONS] COMMAND [ARGS]...
+
+     EDITS network metadata.
+
+   Options:
+     --help  Show this message and exit.
+
+   Commands:
+     check  Check metadata formats for provider/file ID.
+     demo   Demo code.
+   ```
+
+   Then give e.g. `python -m edits check --help` for help on specific commands.
+
+
+
+The output of `edits demo` looks like:
 ```
 Fetch data descriptions
 Provider 1: 1 description(s)

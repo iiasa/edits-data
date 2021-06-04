@@ -1,41 +1,104 @@
 """Formats for YAML and other files."""
+import logging
 
-from typing import Dict
+import yaml
+from sdmx.model import Concept, PrimaryMeasure
+
+log = logging.getLogger(__name__)
 
 
 class Provider:
-    @staticmethod
-    def check(info: Dict) -> Dict:
-        """Check `info` about a data provider e.g. from :file:`providers.yaml`.
+    """Check `info` about a data provider e.g. from :file:`providers.yaml`.
 
-        Raises AssertionError if the data is not in a correct format.
-        """
+    Raises AssertionError if the data is not in a correct format.
+    """
 
-        # Required keys
-        for key in ("id", "contact", "files"):
-            if key not in info:
-                print(f"Provider entry missing {repr(key)} key: {info}")
-                assert False
+    def __init__(self, info):
+        # Required fields
+        for field in ("id", "contact", "files"):
+            if field not in info:
+                raise ValueError(f"Provider entry missing {repr(field)} key: {info}")
+
+            setattr(self, field, info[field])
 
         # file: key must be a list of strings
-        if not isinstance(info["files"], list) or not all(
-            isinstance(f, str) for f in info["files"]
+        if not isinstance(self.files, list) or not all(
+            isinstance(f, str) for f in self.files
         ):
-            print(
-                f"Provider '{info['id']}' 'files' key is not a list of strings: "
-                + repr(info["files"])
+            raise TypeError(
+                "Provider '{0.id}' 'files:' is not a list of strings: {0.files}".format(
+                    self
+                )
             )
-            assert False
 
-        return info
+    def __str__(self):
+        """Short string representation."""
+        return f"Provider: {self.id}"
 
-    @staticmethod
-    def print(entry):
-        """Display a provider `entry`."""
+    def __repr__(self):
+        """Long string representation."""
+        return f"""{self}
+Contact: {self.contact['name']} <{self.contact['email']}>
 
-        print(f"\nProvider: {id}")
-        print(f"Contact: {entry['contact']['name']} <{entry['contact']['email']}>")
+{len(self.files)} file(s):
+""" + "\n".join(
+            self.files
+        )
 
-        print(f"\n{len(entry['files'])} file(s):")
-        print("\n".join(entry["files"]))
-        print()
+
+class Description:
+    """Class corresponding to a data description file."""
+
+    def __init__(self, info):
+        self.id = info.pop("id", "foo")
+
+        self.provider_id = info.pop("provider_id", None)
+        self.provider = info.pop("provider", dict())
+        if len(self.provider) == 0:
+            print("provider: section is missing or empty")
+
+        self.title = info.pop("title")
+        self.description = info.pop("description")
+
+        self.classifiers = info.get("classifiers", [])
+        if len(self.classifiers) == 0:
+            print("classifiers: section is missing or empty")
+
+        if "measures" in info:
+            log.debug("measures: section renamed measure:")
+            info["measure"] = info.pop("measures")
+
+        self.measure = info.pop("measure")
+
+        if "dimensions" in info:
+            log.debug("dimensions: section renamed dimension:")
+            info["dimension"] = info.pop("dimensions")
+
+        self.dimension = info.pop("dimension")
+
+        if "data" in info:
+            log.debug("data: section renamed quantity:")
+            info["quantity"] = info.pop("data")
+
+        self.quantity = info.pop("quantity")
+
+    @classmethod
+    def from_file(cls, content, **kwargs):
+        kwargs.update(yaml.safe_load(content))
+        return cls(kwargs)
+
+    @property
+    def full_id(self):
+        return f"{self.provider_id}/{self.id}"
+
+    def __repr__(self):
+        return f"""Description {self.full_id}: {self.title}
+
+{self.description}
+
+Classifiers: {self.classifiers}
+
+{len(self.measure)} measure(s)
+{len(self.dimension)} dimension(s)
+{len(self.quantity)} quantities
+"""

@@ -26,11 +26,14 @@ def get_providers(ids: Collection[str] = None) -> List[Dict]:
             # This entry's ID is not one of the ones requested via the `ids` argument
             continue
 
-        # Check that the entry is in a consistent format
-        entry = Provider.check(entry)
-
-        # Append to the results
-        result.append(entry)
+        try:
+            entry = Provider(entry)
+        except Exception as e:
+            # Something wrong with the formatting
+            print(f"{repr(e)} when loading:\n  {repr(entry)}\n…skipping.\n")
+        else:
+            # Append to the results
+            result.append(entry)
 
     # Return all the results
     return result

@@ -90,21 +90,31 @@ def search(expression):
     …will show every dimension named "foo", but also "food" or "other_foo" etc., across
     all data providers.
     """
+    # Split the expression into `kind` and `key`
     kind, key = expression.split("=")
 
+    # Check for the kinds of search currently supported
     if kind not in {"dimension", "measure"}:
         raise click.ClickException(f"Can't search for {repr(kind)}")
 
-    all_descriptions = fetch_all()
-
+    # True if there is at least 1 match
     matched = False
 
-    for d in all_descriptions:
+    # Loop over all descriptions
+    for d in fetch_all():
+        # Loop over dimensions (or measures) in this description
         for id, info in getattr(d, kind).items():
             if key in id:
+                # `key` appears in `id` → this is a match
                 matched = True
-                info = yaml.dump({id: info}).replace("\n\n", "\n")
-                print(f"--- {d.full_id}\n{info}\n")
+
+                # Print the matching entry
+                print(
+                    f"--- {d.full_id}",
+                    yaml.dump({id: info}).replace("\n\n", "\n"),
+                    "",
+                    sep="\n",
+                )
 
     if not matched:
         print("No matches")

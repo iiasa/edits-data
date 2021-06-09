@@ -53,6 +53,31 @@ The output of ``edits demo`` looks like:
      ['Kind :: Model output', 'Availability :: Collaborators only']
 
 
+Check metadata
+--------------
+
+Use ``python -m edits check ID`` to check the format (syntax, fields, completeness) of existing metadata from provider ID.
+
+
+Search and compare metadata
+---------------------------
+
+Use ``python -m edits search KIND=KEY`` to search metadata across all providers.
+For example, search for all dimensions that contain the characters ``att``::
+
+.. code-block::
+
+  $ python -m edits search dimension=att
+  EDITS version: ae3f0d0
+
+  --- iiasa-transport/messageix-transport-input
+  attitude:
+    description: New technology adoption attitude or propensity, in particular towards
+      new transport technologies, modes, options, etc.
+    resolution: '3-point scale: early adopter, early majority, late majority'
+    scope: all people in a given (sub-)population
+
+
 How it works
 ============
 

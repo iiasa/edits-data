@@ -14,7 +14,9 @@ The code is written in Python.
    $ python -m edits --help
    Usage: __main__.py [OPTIONS] COMMAND [ARGS]...
 
-     EDITS network metadata.
+     Command-line interface for EDITS network metadata.
+
+     See https://github.com/iiasa/edits-data for documentation.
 
    Options:
      --help  Show this message and exit.

@@ -15,7 +15,10 @@ def cli():
     # Show the current git version
     print(
         "EDITS version:",
-        subprocess.check_output(["git", "log", "-1", "--format=reference"]).decode(),
+        subprocess.check_output(["git", "log", "-1", "--format=reference"])
+        .decode()
+        .split()[0],
+        "\n",
     )
 
 

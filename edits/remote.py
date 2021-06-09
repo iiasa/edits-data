@@ -2,27 +2,44 @@
 from io import BytesIO
 from itertools import chain
 from pathlib import Path
+from typing import List
 from urllib.parse import urlparse
 from zipfile import ZipFile
 
 import requests
 import yaml
 
-from .format import Description
+from . import get_providers
+from .format import Description, Provider
 
 
-def fetch_all(provider):
-    return list(chain(*[fetch_single(url) for url in provider.files]))
+def fetch_all(provider=None) -> List[Description]:
+    """Fetch all data descriptions for a given `provider`.
+
+    If no `provider` is given, fetch all descriptions for all providers.
+    """
+    providers = [provider] if provider else get_providers()
+
+    iters = []
+    for p in providers:
+        iters.extend(fetch_single(url, p) for url in p.files)
+
+    return list(chain(*iters))
 
 
-def fetch_single(url):
-    """Retrieve the data from `url`."""
+def fetch_single(url: str, provider: Provider) -> List[Description]:
+    """Retrieve the data from `url`.
+
+    `provider` is used to construct data set IDs.
+    """
     response = requests.get(url)
 
     if url.endswith(".yaml"):
         id = Path(urlparse(url).path).stem
         try:
-            return [Description.from_file(response.content, id=id)]
+            return [
+                Description.from_file(response.content, id=id, provider_id=provider.id)
+            ]
         except Exception as e:
             # Something wrong with the formatting
             print(f"{repr(e)} when loading:\n  {url}")

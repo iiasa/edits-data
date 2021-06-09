@@ -1,7 +1,7 @@
 # This file lists data providers and the locations of their data descriptions
 # These could also be assembled from multiple files
 
-- id: edits
+- id: demo
   contact:
     name: Paul Natsuo Kishimoto
     email: mail@paul.kishimoto.name

@@ -4,6 +4,7 @@ See https://github.com/iiasa/edits-data for documentation.
 """
 import click
 import subprocess
+import yaml
 from pathlib import Path
 
 from . import get_providers
@@ -74,6 +75,39 @@ def check(local, id):
             print(*[repr(d) for d in desc], sep="\n")
 
     print("--- done.")
+
+
+@cli.command()
+@click.argument("expression")
+def search(expression):
+    """Search for matching metadata.
+
+    EXPRESSION must be of the form KIND=KEY. KIND must be either "dimension" or
+    "measure"; KEY is a string or fragment that must occur in the ID. For example:
+
+    python -m edits search dimension=foo
+
+    …will show every dimension named "foo", but also "food" or "other_foo" etc., across
+    all data providers.
+    """
+    kind, key = expression.split("=")
+
+    if kind not in {"dimension", "measure"}:
+        raise click.ClickException(f"Can't search for {repr(kind)}")
+
+    all_descriptions = fetch_all()
+
+    matched = False
+
+    for d in all_descriptions:
+        for id, info in getattr(d, kind).items():
+            if key in id:
+                matched = True
+                info = yaml.dump({id: info}).replace("\n\n", "\n")
+                print(f"--- {d.full_id}\n{info}\n")
+
+    if not matched:
+        print("No matches")
 
 
 @cli.command()

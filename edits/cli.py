@@ -14,13 +14,16 @@ from .remote import fetch_all, fetch_single
 @click.group(help=__doc__)
 def cli():
     # Show the current git version
-    print(
-        "EDITS version:",
-        subprocess.check_output(["git", "log", "-1", "--format=reference"])
-        .decode()
-        .split()[0],
-        "\n",
-    )
+    try:
+        version = (
+            subprocess.check_output(["git", "log", "-1", "--format=reference"])
+            .decode()
+            .split()[0],
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        version = "(unknown)"
+
+    print(f"EDITS version: {version}\n")
 
 
 @cli.command()

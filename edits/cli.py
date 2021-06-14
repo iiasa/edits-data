@@ -68,7 +68,7 @@ def check(local, id):
         print(f"--- {file}")
 
         try:
-            desc = fetch_single(file)
+            desc = fetch_single(file, provider=entry)
         except Exception as e:
             print(repr(e))
         else:

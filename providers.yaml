@@ -42,6 +42,14 @@
   files:
   - https://raw.githubusercontent.com/janstre/EDITS_metadataTest/main/MISO2_metadata_example.yaml
 
+- id: itf_mt
+  contact:
+    name: Mallory Trouvé
+    email: mallory.trouve@itf-oecd.org
+    github: MalloryTrouve
+  files:
+  - https://github.com/MalloryTrouve/EDITS_ITF_Metadata/blob/main/ITF_GUP_output.yaml
+
 # Demonstration descriptions from an earlier prototype
 #
 # - id: demo

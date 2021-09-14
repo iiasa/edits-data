@@ -50,6 +50,14 @@
   files:
   - https://raw.githubusercontent.com/MalloryTrouve/EDITS_ITF_Metadata/main/ITF_GUP_output.yaml
 
+- id: pier
+  contact:
+    name: Prayas (Energy Group)
+    email: energy.model@prayaspune.org
+    github: prayas-energy
+  files:
+  - https://raw.githubusercontent.com/prayas-energy/PIER/main/Docs/PIER2021_EDITS_metadata.yaml
+
 # Demonstration descriptions from an earlier prototype
 #
 # - id: demo
